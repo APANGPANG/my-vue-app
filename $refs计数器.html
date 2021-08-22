@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./js/vue2.6.10.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <counter ref="one" @change="handleChange"></counter>
+        <counter ref="two" @change="handleChange"></counter>
+        <p>total: {{total}}</p>
+    </div>
+
+    <script>
+        Vue.component('counter', {
+            data: function () {
+            return {
+                number: 0
+            }
+        },
+        template: '<button @click="handleClick">{{number}}</button>',
+        methods: {
+            handleClick: function () {
+                this.number++;
+                this.$emit('change');//触发一个监听器
+            }
+        }
+        });
+
+        var app = new Vue({
+            el:'#app',
+            data:{
+                total:0
+            },
+            methods: {
+                handleChange: function () {
+                    this.total = this.$refs.one.number +
+                    this.$refs.two.number
+                }
+            }
+            });
+    </script>
+</body>
+</html>
